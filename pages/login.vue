@@ -19,6 +19,7 @@
 </template>
 <script>
 export default {
+  middleware: ['checkLogin'],
   methods: {
     onSubmit() {
       const provider = new this.$firebase.auth.GoogleAuthProvider()
