@@ -3,3 +3,22 @@
 @import 'tailwindcss/components';
 /* purgecss end ignore */
 @import 'tailwindcss/utilities';
+
+html {
+  max-width: 24rem;
+  min-width: 20rem;
+  margin: 0 auto;
+  background-color: #000;
+}
+
+body {
+  background-color: #f3faff;
+}
+
+.modal-wrap {
+  background-color: rgba(93, 98, 115, 0.8);
+}
+
+.gradation {
+  background: linear-gradient(135deg, #c5ceff 0%, #00dafe 100%);
+}
