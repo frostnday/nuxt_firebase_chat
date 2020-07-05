@@ -12,6 +12,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "firebase": "^7.15.5",
     "nuxt": "^2.0.0"
   },
   "devDependencies": {
