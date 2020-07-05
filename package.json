@@ -16,9 +16,11 @@
     "nuxt": "^2.0.0"
   },
   "devDependencies": {
+    "@firebase/testing": "^0.20.5",
     "@nuxtjs/tailwindcss": "^1.0.0",
     "@vue/test-utils": "^1.0.0-beta.27",
     "babel-jest": "^24.1.0",
+    "filesystem": "^1.0.1",
     "jest": "^24.1.0",
     "vue-jest": "^4.0.0-0"
   }
