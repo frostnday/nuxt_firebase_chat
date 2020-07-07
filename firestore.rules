@@ -20,11 +20,24 @@ service cloud.firestore {
               && request.resource.data[param].trim().size() != 0;
     }
 
+    function isTimeStamp(param){
+      return require(param)
+            && request.resource.data[param] is timestamp
+    }
+
     match /users/{userId} {
       allow get : if isAuth();
       allow create: if isUserAuth(userId)
                     && isNotEmpty("name")
                     && isNotEmpty("iconImageUrl");
+    }
+
+    match /rooms/{roomId} {
+      allow read : if isAuth();
+      allow create: if isAuth()
+                  && isNotEmpty("name")
+                  && isNotEmpty("topImageUrl")
+                  && isTimeStamp("createdAt");
     }
   }
 }

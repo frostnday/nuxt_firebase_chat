@@ -112,4 +112,86 @@ describe(testName, () => {
       })
     })
   })
+
+  describe('rooms collection', () => {
+    describe('read', () => {
+      test('未ログインの場合、Roomデータ取得に失敗するかどうか', async () => {
+        const db = noAuthDB()
+        await firebase.assertFails(
+          db
+            .collection('rooms')
+            .doc('tech-room')
+            .get()
+        )
+      })
+
+      test('ログイン済の場合、Roomデータを取得できるかどうか', async () => {
+        const db = authDB({ uid: 'tech-user' })
+        await firebase.assertSucceeds(
+          db
+            .collection('rooms')
+            .doc('tech-room')
+            .get()
+        )
+      })
+    })
+
+    describe('create', () => {
+      test('Roomのデータを作成できるかどうか', async () => {
+        const db = authDB({ uid: 'tech-user' })
+        await firebase.assertSucceeds(
+          db
+            .collection('rooms')
+            .doc('tech-room')
+            .set({
+              name: 'なんとかについて話す部屋です',
+              topImageUrl: 'https://exampla.com',
+              createdAt: new Date()
+            })
+        )
+      })
+
+      test('部屋名が未入力の場合、作成に失敗するかどうか', async () => {
+        const db = authDB({ uid: 'tech-user' })
+        await firebase.assertFails(
+          db
+            .collection('rooms')
+            .doc('tech-room')
+            .set({
+              name: '',
+              topImageUrl: 'https://exampla.com',
+              createdAt: new Date()
+            })
+        )
+      })
+
+      test('TOP画像が未入力の場合、作成に失敗するかどうか', async () => {
+        const db = authDB({ uid: 'tech-user' })
+        await firebase.assertFails(
+          db
+            .collection('rooms')
+            .doc('tech-room')
+            .set({
+              name: 'testUser',
+              topImageUrl: '',
+              createdAt: new Date()
+            })
+        )
+      })
+
+      test('作成日が未入力の場合、作成に失敗するかどうか', async () => {
+        const db = authDB({ uid: 'tech-user' })
+        await firebase.assertFails(
+          db
+            .collection('rooms')
+            .doc('tech-room')
+            .set({
+              name: 'testUser',
+              topImageUrl: 'https://exampla.com',
+              createdAt: ''
+            })
+        )
+      })
+    })
+  })
 })
