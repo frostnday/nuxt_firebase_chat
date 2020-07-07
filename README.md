@@ -1,22 +1,6 @@
-# chat
+# Nuxt(Vue.js) × Firebase でリアルタイムチャットアプリを作ってみよう！
 
-> My superior Nuxt.js project
+「Nuxt(Vue.js) × Firebase でリアルタイムチャットアプリを作ってみよう！」の教材で使用したソースコードになります。
 
-## Build Setup
-
-``` bash
-# install dependencies
-$ npm install
-
-# serve with hot reload at localhost:3000
-$ npm run dev
-
-# build for production and launch server
-$ npm run build
-$ npm run start
-
-# generate static project
-$ npm run generate
-```
-
-For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).
+教材のチャプターに合わせてブランチを作成してあります。
+うまく動作せずに行き詰まったりした場合など、自分の書いたコードと比較を行ったりする場合にご活用ください。
