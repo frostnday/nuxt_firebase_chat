@@ -194,4 +194,148 @@ describe(testName, () => {
       })
     })
   })
+
+  describe('chats collection', () => {
+    beforeEach(async () => {
+      const db = authDB({ uid: 'tech-user' })
+      await firebase.assertSucceeds(
+        db
+          .collection('rooms')
+          .doc('tech-room')
+          .set({
+            name: 'なんとかについて話す部屋です',
+            topImageUrl: 'https://exampla.com',
+            createdAt: new Date()
+          })
+      )
+    })
+
+    describe('read', () => {
+      test('未ログインの場合、chatデータ取得に失敗するかどうか', async () => {
+        const db = noAuthDB()
+        await firebase.assertFails(
+          db
+            .collection('rooms')
+            .doc('tech-room')
+            .collection('chats')
+            .get()
+        )
+      })
+
+      test('ログイン済の場合、chatデータを取得できるかどうか', async () => {
+        const db = authDB({ uid: 'tech-user' })
+        await firebase.assertSucceeds(
+          db
+            .collection('rooms')
+            .doc('tech-room')
+            .collection('chats')
+            .get()
+        )
+      })
+    })
+
+    describe('create', () => {
+      test('chatのデータを作成できるかどうか', async () => {
+        const db = authDB({ uid: 'tech-user' })
+        await firebase.assertSucceeds(
+          db
+            .collection('rooms')
+            .doc('tech-room')
+            .collection('chats')
+            .add({
+              userId: 'tech-user',
+              name: 'testUser',
+              iconImageUrl: 'https://exampla.com',
+              body: 'こんにちわ',
+              createdAt: new Date()
+            })
+        )
+      })
+
+      test('userIdが自分以外の場合、作成に失敗するかどうか', async () => {
+        const db = authDB({ uid: 'tech-user' })
+        await firebase.assertFails(
+          db
+            .collection('rooms')
+            .doc('tech-room')
+            .collection('chats')
+            .add({
+              userId: 'tech-user2',
+              name: 'testUser',
+              iconImageUrl: 'https://exampla.com',
+              body: 'こんにちわ',
+              createdAt: new Date()
+            })
+        )
+      })
+
+      test('名前が未入力の場合、作成に失敗するかどうか', async () => {
+        const db = authDB({ uid: 'tech-user' })
+        await firebase.assertFails(
+          db
+            .collection('rooms')
+            .doc('tech-room')
+            .collection('chats')
+            .add({
+              userId: 'tech-user',
+              name: '',
+              iconImageUrl: 'https://exampla.com',
+              body: 'こんにちわ',
+              createdAt: new Date()
+            })
+        )
+      })
+
+      test('アイコン画像が未入力の場合、作成に失敗するかどうか', async () => {
+        const db = authDB({ uid: 'tech-user' })
+        await firebase.assertFails(
+          db
+            .collection('rooms')
+            .doc('tech-room')
+            .collection('chats')
+            .add({
+              userId: 'tech-user2',
+              name: 'testUser',
+              iconImageUrl: '',
+              body: 'こんにちわ',
+              createdAt: new Date()
+            })
+        )
+      })
+
+      test('チャット内容が未入力の場合、作成に失敗するかどうか', async () => {
+        const db = authDB({ uid: 'tech-user' })
+        await firebase.assertFails(
+          db
+            .collection('rooms')
+            .doc('tech-room')
+            .collection('chats')
+            .add({
+              userId: 'tech-user2',
+              name: 'testUser',
+              iconImageUrl: 'https://exampla.com',
+              body: '',
+              createdAt: new Date()
+            })
+        )
+      })
+
+      test('作成日が未入力の場合、作成に失敗するかどうか', async () => {
+        const db = authDB({ uid: 'tech-user' })
+        await firebase.assertFails(
+          db
+            .collection('rooms')
+            .doc('tech-room')
+            .collection('chats')
+            .add({
+              userId: 'tech-user2',
+              name: 'testUser',
+              iconImageUrl: 'https://exampla.com',
+              body: 'こんにちわ',
+              createdAt: ''
+            })
+        )
+      })
+    })
+  })
 })
