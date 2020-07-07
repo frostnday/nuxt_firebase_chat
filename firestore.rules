@@ -38,6 +38,16 @@ service cloud.firestore {
                   && isNotEmpty("name")
                   && isNotEmpty("topImageUrl")
                   && isTimeStamp("createdAt");
+
+      match /chats/{chatId} {
+        allow read : if isAuth();
+        allow create: if isAuth()
+            && isUserAuth(request.resource.data.userId)
+            && isNotEmpty("name")
+            && isNotEmpty("iconImageUrl")
+            && isNotEmpty("body")
+            && isTimeStamp("createdAt");
+      }
     }
   }
 }
