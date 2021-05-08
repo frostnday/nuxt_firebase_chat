@@ -161,7 +161,7 @@ export default {
 
     async onSubmit() {
       // 認証チェック
-      const user = this.$auth.currentUser
+      const user = await this.$auth()
       if (!user) this.$router.push('/login')
 
       // 入力値チェック
